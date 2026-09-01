@@ -1,0 +1,7 @@
+[tools]
+java = "21"
+go = "1.23.0"
+
+[tasks]
+build = "cd api && ./gradlew build -x test && cd ../microservice && go build ./..."
+test = "cd api && ./gradlew test && cd ../microservice && go test ./..."
