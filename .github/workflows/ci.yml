@@ -16,8 +16,6 @@ jobs:
 
       - name: Instalar mise (Gerenciador de versões e tasks)
         uses: jdx/mise-action@v2
-        with:
-          version: latest
 
       - name: Cache de dependências do Gradle (Ktor)
         uses: actions/cache@v4

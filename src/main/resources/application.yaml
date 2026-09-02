@@ -1,0 +1,7 @@
+ktor:
+  deployment:
+    port: 8080
+  application:
+    modules:
+      - com.smorg.HttpKt.configureHttp
+      - com.smorg.RoutingKt.configureRouting
