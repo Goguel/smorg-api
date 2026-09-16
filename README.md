@@ -6,7 +6,7 @@ O documento detalhado da visão do produto, MVP e decisões arquiteturais encont
 
 ## Equipe e Informações Acadêmicas
 * **Aluno:** Miguel Xavier de Morais (Matrícula: 20240027427)
-* **Coorte de Apresentação:** Presencial
+* **Coorte de Apresentação:** Coorte A (Presencial)
 * **Integração:** Este projeto de backend está integrado com a disciplina DIM0524 (Sistemas Móveis). O App que consome esta API está no repositório [smorg-mobile](https://github.com/Goguel/smorg-mobile).
 
 ## Arquitetura

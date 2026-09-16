@@ -22,14 +22,14 @@
 ## 3. Backlog Inicial
 As histórias detalhadas e o quadro Kanban estão disponíveis aqui: https://github.com/users/Goguel/projects/2.
 
-| Prio | História | Critérios de aceitação | Sprint |
-|---|---|---|---|
-| P1 | Como monitor, quero cadastrar novos equipamentos com seus IDs de tag NFC para incluí-los no acervo do laboratório | CRUD com ID único validado | 1 |
-| P1 | Como aluno, quero registrar a retirada de um equipamento para ter a permissão formal de uso | Status do item muda para indisponível; gera transação | 1 |
-| P1 | Como sistema Ktor, quero comunicar com o serviço Go no momento do empréstimo para calcular o prazo exato | gRPC implementado; calcula data ignorando fins de semana | 2 |
-| P1 | Como aluno, quero registrar a devolução de um equipamento para liberar o item para outros colegas | Finaliza a transação; status do item muda para disponível | 1 |
-| P2 | Como administrador, quero consultar o inventário de itens emprestados para auditoria | Endpoint retorna itens filtrados por status | 1 |
-| P3 | Como sistema Ktor, quero salvar os itens mais requisitados em cache para reduzir latência | Cache ativado com métricas de hit/miss | 3 |
+| Prio | História | Estimativa | Critérios de aceitação | Sprint |
+|---|---|---|---|---|
+| P1 | Como monitor, quero cadastrar novos equipamentos com seus IDs de tag NFC para incluí-los no acervo do laboratório | 5 pts | CRUD com ID único validado | 1 |
+| P1 | Como aluno, quero registrar a retirada de um equipamento para ter a permissão formal de uso | 5 pts | Status do item muda para indisponível; gera transação | 1 |
+| P1 | Como sistema Ktor, quero comunicar com o serviço Go no momento do empréstimo para calcular o prazo exato | 8 pts | gRPC implementado; calcula data ignorando fins de semana | 2 |
+| P1 | Como aluno, quero registrar a devolução de um equipamento para liberar o item para outros colegas | 3 pts | Finaliza a transação; status do item muda para disponível | 1 |
+| P2 | Como administrador, quero consultar o inventário de itens emprestados para auditoria | 3 pts | Endpoint retorna itens filtrados por status | 1 |
+| P3 | Como sistema Ktor, quero salvar os itens mais requisitados em cache para reduzir latência | 5 pts | Cache ativado com métricas de hit/miss | 3 |
 
 ## 4. Entidades Principais do Domínio
 * **Usuario:** Representa alunos, monitores e administradores (id, matricula, nome, perfil).
@@ -48,5 +48,5 @@ Optamos por **Kotlin com Ktor** pois a equipe desenvolverá simultaneamente o ap
 Obs: Sou o único nesse projeto mas escrevi tudo no plural para padronização
 
 ## 8. Coorte e Integrações
-* **Coorte escolhida para apresentação:** Presencial  
+* **Coorte escolhida para apresentação:** Coorte A — Presencial  
 * **Integração Declarada:** Este projeto está formalmente integrado com a disciplina de Desenvolvimento para Dispositivos Móveis (DIM0524). O backend desenvolvido aqui consumirá as requisições geradas pelo aplicativo móvel presente no repositório: https://github.com/Goguel/smorg-mobile.
