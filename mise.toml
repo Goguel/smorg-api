@@ -3,5 +3,7 @@ java = "21"
 go = "1.23.0"
 
 [tasks]
-build = "cd api && ./gradlew build -x test && cd ../microservice && go build ./..."
-test = "cd api && ./gradlew test && cd ../microservice && go test ./..."
+build = "cd api && ./gradlew build -x test && cd ../services && go build ./..."
+test = "cd api && ./gradlew test && cd ../services && go test ./..."
+up = "docker compose up -d"
+ci = "mise run build && mise run test"

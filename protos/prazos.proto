@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package smorg.prazos.v1;
+
+option go_package = "smorg/services/pkg/api/v1;prazosv1";
+option java_multiple_files = true;
+option java_package = "com.smorg.prazos.v1";
+
+// Serviço gRPC para cálculo e validação de regras de devolução de ativos físicos
+service PrazoService {
+  // Calcula a data limite prevista de devolução conforme perfil e calendário acadêmico
+  rpc CalcularPrazoDevolucao (CalcularPrazoRequest) returns (CalcularPrazoResponse);
+}
+
+message CalcularPrazoRequest {
+  string usuario_id = 1;
+  string perfil_usuario = 2;       // Ex: "ALUNO", "MONITOR", "PROFESSOR"
+  string equipamento_id = 3;
+  string categoria_equipamento = 4;
+}
+
+message CalcularPrazoResponse {
+  string data_devolucao_prevista = 1; // ISO-8601 UTC
+  int32 dias_concedidos = 2;
+  string observacoes = 3;
+}
