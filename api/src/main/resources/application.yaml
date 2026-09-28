@@ -3,5 +3,11 @@ ktor:
     port: 8080
   application:
     modules:
+      - com.smorg.plugins.DatabaseKt.configureDatabases
       - com.smorg.HttpKt.configureHttp
       - com.smorg.RoutingKt.configureRouting
+
+storage:
+  jdbcURL: ${POSTGRES_JDBC_URL:jdbc:postgresql://localhost:5432/smorg}
+  user: ${POSTGRES_USER:smorg}
+  password: ${POSTGRES_PASSWORD:smorg}
