@@ -1,3 +1,22 @@
-.idea
-build/
+# IDE & Editors
+.idea/
+*.iml
+.vscode/
+
+# Gradle & Build artifacts
 .gradle/
+build/
+**/build/
+bin/
+**/bin/
+.kotlin/
+**/.kotlin/
+
+# Logs & crash reports
+*.log
+hs_err_*.log
+replay_*.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,6 +1,7 @@
 ktor:
   deployment:
-    port: 8080
+    port: ${PORT:8080}
+    host: ${HOST:0.0.0.0}
   application:
     modules:
       - com.smorg.plugins.DatabaseKt.configureDatabases
