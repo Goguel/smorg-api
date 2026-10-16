@@ -1,9 +1,6 @@
 package com.smorg.adapters.http
 
-import com.smorg.domain.ConflitoTagNfc
-import com.smorg.domain.EntradaInvalida
-import com.smorg.domain.EquipamentoNaoEncontrado
-import com.smorg.domain.OperacaoNaoPermitida
+import com.smorg.domain.*
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -83,6 +80,15 @@ fun Application.configurarTratamentoErros() {
             )
         }
 
+        exception<EmprestimoNaoEncontrado> { call, causa ->
+            call.responderProblema(
+                status = HttpStatusCode.NotFound,
+                tipo = "emprestimo-nao-encontrado",
+                titulo = "Empréstimo não encontrado",
+                detalhe = causa.message
+            )
+        }
+
         exception<EntradaInvalida> { call, causa ->
             call.responderProblema(
                 status = HttpStatusCode.BadRequest,
@@ -98,6 +104,24 @@ fun Application.configurarTratamentoErros() {
                 status = HttpStatusCode.Conflict,
                 tipo = "conflito-tag-nfc",
                 titulo = "Conflito de Tag NFC",
+                detalhe = causa.message
+            )
+        }
+
+        exception<EquipamentoIndisponivel> { call, causa ->
+            call.responderProblema(
+                status = HttpStatusCode.Conflict,
+                tipo = "equipamento-indisponivel",
+                titulo = "Equipamento indisponível",
+                detalhe = causa.message
+            )
+        }
+
+        exception<ItemNaoEmprestado> { call, causa ->
+            call.responderProblema(
+                status = HttpStatusCode.UnprocessableEntity,
+                tipo = "item-nao-emprestado",
+                titulo = "Item não emprestado",
                 detalhe = causa.message
             )
         }

@@ -8,7 +8,10 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.util.UUID
 
-fun Route.equipamentoRotas(repositorio: RepositorioDeEquipamentos) {
+fun Route.equipamentoRotas(
+    repositorio: RepositorioDeEquipamentos,
+    repositorioEmprestimos: RepositorioDeEmprestimos? = null
+) {
     // Listar e cadastrar
     get {
         val statusParam = call.request.queryParameters["status"]?.let {
@@ -17,7 +20,14 @@ fun Route.equipamentoRotas(repositorio: RepositorioDeEquipamentos) {
             }
         }
         val categoriaParam = call.request.queryParameters["categoria"]
-        val equipamentos = repositorio.listar(statusParam, categoriaParam)
+        val limit = (call.request.queryParameters["size"]?.toIntOrNull()
+            ?: call.request.queryParameters["limit"]?.toIntOrNull()
+            ?: 20).coerceIn(1, 100)
+        val offset = call.request.queryParameters["page"]?.toLongOrNull()?.let { it * limit }
+            ?: call.request.queryParameters["offset"]?.toLongOrNull()
+            ?: 0L
+
+        val equipamentos = repositorio.listar(statusParam, categoriaParam, limit, offset)
         call.respond(HttpStatusCode.OK, equipamentos)
     }
 
@@ -64,6 +74,22 @@ fun Route.equipamentoRotas(repositorio: RepositorioDeEquipamentos) {
             val id = extrairUUID(call.parameters["id"])
             repositorio.excluir(id)
             call.respond(HttpStatusCode.NoContent)
+        }
+
+        get("/emprestimos") {
+            val id = extrairUUID(call.parameters["id"])
+            val limit = (call.request.queryParameters["size"]?.toIntOrNull()
+                ?: call.request.queryParameters["limit"]?.toIntOrNull()
+                ?: 20).coerceIn(1, 100)
+            val offset = call.request.queryParameters["page"]?.toLongOrNull()?.let { it * limit }
+                ?: call.request.queryParameters["offset"]?.toLongOrNull()
+                ?: 0L
+            val emprestimos = repositorioEmprestimos?.listar(
+                equipamentoId = id,
+                limit = limit,
+                offset = offset
+            ) ?: emptyList()
+            call.respond(HttpStatusCode.OK, emprestimos)
         }
     }
 }
