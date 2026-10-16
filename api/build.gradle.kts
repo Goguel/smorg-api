@@ -23,6 +23,8 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:3.5.2")
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.5.2")
     implementation("io.ktor:ktor-server-status-pages:3.5.2")
+    implementation("io.ktor:ktor-server-routing-openapi:3.5.2")
+    implementation("io.ktor:ktor-server-swagger:3.5.2")
     implementation(libs.logback.classic)
 
     implementation(libs.exposed.core)
@@ -37,3 +39,9 @@ dependencies {
     testImplementation(ktorLibs.server.testHost)
     testImplementation("io.ktor:ktor-client-content-negotiation:3.5.2")
 }
+
+tasks.test {
+    maxParallelForks = 1
+    maxHeapSize = "256m"
+}
+
