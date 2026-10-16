@@ -75,7 +75,12 @@ class OperacaoNaoPermitida(override val message: String) : RuntimeException(mess
 
 // Porta do Repositório
 interface RepositorioDeEquipamentos {
-    suspend fun listar(status: StatusEquipamento? = null, categoria: String? = null): List<Equipamento>
+    suspend fun listar(
+        status: StatusEquipamento? = null,
+        categoria: String? = null,
+        limit: Int = 20,
+        offset: Long = 0
+    ): List<Equipamento>
     suspend fun buscarPorId(id: UUID): Equipamento?
     suspend fun buscarPorTag(nfcTagId: String): Equipamento?
     suspend fun adicionar(novo: NovoEquipamento): Equipamento

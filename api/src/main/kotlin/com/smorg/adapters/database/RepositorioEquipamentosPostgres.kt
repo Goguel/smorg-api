@@ -12,7 +12,12 @@ class RepositorioEquipamentosPostgres(private val db: Database? = null) : Reposi
     private suspend fun <T> query(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO, db) { block() }
 
-    override suspend fun listar(status: StatusEquipamento?, categoria: String?): List<Equipamento> = query {
+    override suspend fun listar(
+        status: StatusEquipamento?,
+        categoria: String?,
+        limit: Int,
+        offset: Long
+    ): List<Equipamento> = query {
         var op: Op<Boolean>? = null
 
         if (status != null) {
@@ -26,7 +31,9 @@ class RepositorioEquipamentosPostgres(private val db: Database? = null) : Reposi
         }
 
         val query = if (op != null) EquipamentosTable.selectAll().where(op) else EquipamentosTable.selectAll()
-        query.map { it.paraEquipamento() }
+        query.limit(limit, offset)
+            .orderBy(EquipamentosTable.nome to SortOrder.ASC)
+            .map { it.paraEquipamento() }
     }
 
     override suspend fun buscarPorId(id: UUID): Equipamento? = query {
