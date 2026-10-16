@@ -15,8 +15,15 @@ class EquipamentoTest {
     private class RepositorioEquipamentosFake : RepositorioDeEquipamentos {
         val itens = mutableListOf<Equipamento>()
 
-        override suspend fun listar(status: StatusEquipamento?, categoria: String?): List<Equipamento> =
+        override suspend fun listar(
+            status: StatusEquipamento?,
+            categoria: String?,
+            limit: Int,
+            offset: Long
+        ): List<Equipamento> =
             itens.filter { (status == null || it.status == status) && (categoria == null || it.categoria == categoria) }
+                .drop(offset.toInt())
+                .take(limit)
 
         override suspend fun buscarPorId(id: UUID): Equipamento? =
             itens.find { it.id == id }
