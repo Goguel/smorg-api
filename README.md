@@ -34,7 +34,14 @@ Na raiz do projeto, execute os seguintes comandos:
 
 ---
 
-## Checklist de Avaliação (Rúbricas)
+## Documentação da API (OpenAPI e Swagger UI)
+Quando a aplicação estiver em execução, a documentação interativa e a especificação OpenAPI estarão disponíveis em:
+* **Swagger UI:** `http://localhost:8080/docs`
+* **JSON Schema / OpenAPI Spec:** `http://localhost:8080/openapi.json`
+
+---
+
+## Checklist de Avaliação (Rúbricas Atualizadas)
 
 ### Sprint 0
 - [x] Monorepo público: api/ services/ protos/ docs/ mise.toml docker-compose.yml
@@ -45,39 +52,19 @@ Na raiz do projeto, execute os seguintes comandos:
 - [x] Vídeo 5 min
 
 ### Sprint 1
-- [ ] CRUD de ≥2 entidades com relacionamento
-- [ ] Teste de arquitetura da regra de dependência rodando no CI
-- [ ] Migrações Flyway (sem geração automática de schema)
-- [ ] Testes com Testcontainers verdes local E no CI
-- [ ] Validação + problem details + OpenAPI
-- [ ] Vídeo 5 min
+- [x] CRUD de ≥2 entidades com relacionamento (`Equipamento` e `Emprestimo`)
+- [x] Camadas separadas: o domínio não importa framework nem infraestrutura
+- [x] Migrações Flyway versionadas (`V1` e `V2`, sem geração automática de schema)
+- [x] Validação + Problem Details (RFC 9457 / RFC 7807) + OpenAPI (Swagger UI em `/docs`)
+- [ ] Vídeo 5 min: [Link do Vídeo](URL_DO_VIDEO_AQUI)
 
-### Sprint 2
+### Sprint 2 (final)
 - [ ] Microsserviço Go com responsabilidade justificada
-- [ ] arch-go.yml com compliance 100 no CI
-- [ ] protos/ com buf lint + buf breaking no CI
-- [ ] Stubs Go e (Kotlin/Java) gerados (check de sincronia)
+- [ ] protos/ com buf lint no CI e stubs gerados
 - [ ] Teste de integração gRPC ponta a ponta
 - [ ] docker compose up sobe tudo do zero
-- [ ] Vídeo 5 min
-
-### Sprint 3
-- [ ] Banco no Neon com migrações via CI/task
-- [ ] Cache com política declarada + métricas hit/miss
-- [ ] Deploy no ar (Northflank/Render/Railway) com URL no README
-- [ ] Imagens publicadas no ghcr.io pelo CI
-- [ ] Logs estruturados + health checks
-- [ ] Suíte verde local E remoto
-- [ ] Vídeo 5 min
-
-### Entrega Final
-- [ ] Sistema no ar, deploy automatizado de main
-- [ ] Auth (JWT+refresh ou OIDC) + teste anti-BOLA
-- [ ] docs/seguranca.md cobrindo OWASP API Top 10
-- [ ] renovate.json ativo, Semgrep no CI, zero segredos versionados
-- [ ] Pipeline completo verde
-- [ ] Site de documentação público (≥3 ADRs)
-- [ ] Referência de API pública gerada do OpenAPI
-- [ ] README permite rodar em <10 min + licença
-- [ ] Vídeo 10 min
-- [ ] Apresentação ao vivo
+- [ ] API no ar, com URL pública no README e banco gerenciado; a API funciona mesmo sem o serviço Go
+- [ ] Migrações por task ou CI; nenhum segredo no repositório
+- [ ] Testes unitários, de integração (Testcontainers ou Dev Services) e de arquitetura, verdes local E no CI
+- [ ] README roda em menos de 10 min; OpenAPI acessível; 2 ADRs novas
+- [ ] Vídeo 5 min
