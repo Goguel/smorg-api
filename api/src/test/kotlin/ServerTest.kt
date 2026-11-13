@@ -15,7 +15,7 @@ class ServerTest {
         }
         application {
             configureHttp()
-            configureRouting()
+            configureRouting(calculadorDePrazos = com.smorg.adapters.memoria.CalculadorDePrazosEmMemoria())
         }
         // verify server root returns 200
         assertEquals(HttpStatusCode.OK, client.get("/").status)

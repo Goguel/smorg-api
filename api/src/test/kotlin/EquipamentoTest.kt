@@ -1,5 +1,6 @@
 package com.smorg
 
+import com.smorg.adapters.memoria.CalculadorDePrazosEmMemoria
 import com.smorg.domain.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
@@ -78,7 +79,7 @@ class EquipamentoTest {
         val repo = RepositorioEquipamentosFake()
         application {
             configureHttp()
-            configureRouting(repo)
+            configureRouting(repo, calculadorDePrazos = CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
@@ -100,7 +101,7 @@ class EquipamentoTest {
         val repo = RepositorioEquipamentosFake()
         application {
             configureHttp()
-            configureRouting(repo)
+            configureRouting(repo, calculadorDePrazos = CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
@@ -125,7 +126,7 @@ class EquipamentoTest {
         val repo = RepositorioEquipamentosFake()
         application {
             configureHttp()
-            configureRouting(repo)
+            configureRouting(repo, calculadorDePrazos = CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
@@ -145,7 +146,7 @@ class EquipamentoTest {
         val repo = RepositorioEquipamentosFake()
         application {
             configureHttp()
-            configureRouting(repo)
+            configureRouting(repo, calculadorDePrazos = CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
@@ -174,7 +175,7 @@ class EquipamentoTest {
         val repo = RepositorioEquipamentosFake()
         application {
             configureHttp()
-            configureRouting(repo)
+            configureRouting(repo, calculadorDePrazos = CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }

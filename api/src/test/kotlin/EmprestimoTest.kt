@@ -1,5 +1,6 @@
 package com.smorg
 
+import com.smorg.adapters.memoria.CalculadorDePrazosEmMemoria
 import com.smorg.domain.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
@@ -134,7 +135,7 @@ class EmprestimoTest {
 
         application {
             configureHttp()
-            configureRouting(repoEq, repoEmp)
+            configureRouting(repoEq, repoEmp, CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
@@ -169,7 +170,7 @@ class EmprestimoTest {
 
         application {
             configureHttp()
-            configureRouting(repoEq, repoEmp)
+            configureRouting(repoEq, repoEmp, CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
@@ -203,7 +204,7 @@ class EmprestimoTest {
 
         application {
             configureHttp()
-            configureRouting(repoEq, repoEmp)
+            configureRouting(repoEq, repoEmp, CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
@@ -230,7 +231,7 @@ class EmprestimoTest {
 
         application {
             configureHttp()
-            configureRouting(repoEq, repoEmp)
+            configureRouting(repoEq, repoEmp, CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
@@ -262,7 +263,7 @@ class EmprestimoTest {
 
         application {
             configureHttp()
-            configureRouting(repoEq, repoEmp)
+            configureRouting(repoEq, repoEmp, CalculadorDePrazosEmMemoria())
         }
         val client = createClient {
             install(ContentNegotiation) { json() }
