@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+// Contrato do serviço de prazos: a API principal (Ktor) solicita o cálculo da data
+// prevista de devolução de um equipamento e o microsserviço Go realiza o cômputo
+// considerando perfis acadêmicos, fins de semana e feriados.
+package smorg.prazos.v1;
+
+option go_package = "smorg/services/gen/smorg/prazos/v1;prazosv1";
+option java_multiple_files = true;
+option java_package = "com.smorg.prazos.v1";
+
+// Serviço gRPC para cálculo e validação de prazos de devolução de ativos físicos.
+service PrazoService {
+  // Calcula a data limite prevista de devolução conforme perfil do solicitante e calendário acadêmico.
+  rpc CalcularPrazoDevolucao (CalcularPrazoDevolucaoRequest) returns (CalcularPrazoDevolucaoResponse);
+}
+
+// Requisição de cálculo de prazo de devolução.
+message CalcularPrazoDevolucaoRequest {
+  // Identificador único do usuário solicitante (UUID ou matrícula). Não pode ser vazio.
+  string usuario_id = 1;
+
+  // Perfil acadêmico do solicitante (ex: "ALUNO", "MONITOR", "PROFESSOR"). Não pode ser vazio.
+  string perfil_usuario = 2;
+
+  // Identificador único do equipamento a ser retirado (UUID). Não pode ser vazio.
+  string equipamento_id = 3;
+
+  // Categoria do equipamento físico (ex: "ELETRONICA", "CONSUMIVEL", "MULTIMETRO").
+  string categoria_equipamento = 4;
+
+  // Data e hora da retirada em formato ISO-8601 UTC. Opcional (se omitido, assume o instante atual).
+  string data_retirada = 5;
+}
+
+// Resposta contendo a data final calculada e informações do empréstimo.
+message CalcularPrazoDevolucaoResponse {
+  // Data e hora limite prevista para devolução em formato ISO-8601 UTC (ex: "2026-11-05T23:59:59Z").
+  string data_devolucao_prevista = 1;
+
+  // Quantidade de dias úteis concedidos conforme as regras do perfil acadêmico.
+  int32 dias_concedidos = 2;
+
+  // Observações e detalhamento sobre as regras aplicadas no cálculo.
+  string observacoes = 3;
+}

@@ -1,0 +1,11 @@
+# Módulo Buf para governança dos contratos Protocol Buffers do SmOrg.
+# Configurado com as regras oficiais da disciplina (STANDARD e COMMENTS).
+version: v2
+lint:
+  use:
+    - STANDARD
+    - COMMENTS        # Todo elemento do contrato deve conter documentação/comentário
+breaking:
+  use:
+    - FILE
+

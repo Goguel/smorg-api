@@ -1,0 +1,11 @@
+# Geração dos stubs Go do serviço de prazos utilizando plugins remotos do Buf.
+# Os stubs Kotlin para a API Ktor são gerados pelo plugin Protobuf no Gradle.
+version: v2
+plugins:
+  - remote: buf.build/protocolbuffers/go:v1.36.12
+    out: ../services/gen
+    opt: paths=source_relative
+  - remote: buf.build/grpc/go:v1.6.0
+    out: ../services/gen
+    opt: paths=source_relative
+
