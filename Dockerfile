@@ -1,20 +1,26 @@
-# 1. Build stage
-FROM eclipse-temurin:21-jdk-alpine AS build
+# Imagem multi-stage da API Principal Ktor (Kotlin)
+# Utiliza base Debian (glibc) compatível com os binários do protoc e protoc-gen-grpc
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-# Copia arquivos do Gradle do módulo api
+# Copia arquivos de configuração do Gradle
 COPY api/gradle api/gradle
 COPY api/gradlew api/gradlew.bat api/settings.gradle.kts api/build.gradle.kts api/gradle.properties ./api/
 RUN chmod +x ./api/gradlew
 
-# Copia código-fonte e gera o pacote de distribuição
+# O build do Ktor necessita dos arquivos .proto em ../protos
+COPY protos ./protos
 COPY api/src ./api/src
-WORKDIR /app/api
-RUN ./gradlew installDist --no-daemon
 
-# 2. Runtime stage
-FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app/api
+RUN ./gradlew installDist -x test --no-daemon
+
+# Imagem final de runtime
+FROM eclipse-temurin:21-jre
 WORKDIR /app
+
+# Instala curl para health check
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /app/api/build/install/api /app
 
