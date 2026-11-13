@@ -2,8 +2,10 @@ package com.smorg
 
 import com.smorg.adapters.database.RepositorioEmprestimosPostgres
 import com.smorg.adapters.database.RepositorioEquipamentosPostgres
+import com.smorg.adapters.grpc.CalculadorDePrazosGrpc
 import com.smorg.adapters.http.emprestimoRotas
 import com.smorg.adapters.http.equipamentoRotas
+import com.smorg.domain.CalculadorDePrazos
 import com.smorg.domain.RepositorioDeEmprestimos
 import com.smorg.domain.RepositorioDeEquipamentos
 import io.ktor.openapi.OpenApiInfo
@@ -12,9 +14,15 @@ import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
+private fun obterCalculadorDePrazosPadrao(): CalculadorDePrazos {
+    val endereco = System.getenv("PRAZOS_GRPC_HOST") ?: "localhost:50051"
+    return CalculadorDePrazosGrpc.para(endereco)
+}
+
 fun Application.configureRouting(
     repositorioEquipamentos: RepositorioDeEquipamentos = RepositorioEquipamentosPostgres(),
-    repositorioEmprestimos: RepositorioDeEmprestimos = RepositorioEmprestimosPostgres()
+    repositorioEmprestimos: RepositorioDeEmprestimos = RepositorioEmprestimosPostgres(),
+    calculadorDePrazos: CalculadorDePrazos = obterCalculadorDePrazosPadrao()
 ) {
     routing {
         get("/") {
@@ -26,7 +34,7 @@ fun Application.configureRouting(
         }
 
         route("/api/v1/emprestimos") {
-            emprestimoRotas(repositorioEmprestimos, repositorioEquipamentos)
+            emprestimoRotas(repositorioEmprestimos, repositorioEquipamentos, calculadorDePrazos)
         }
 
         // Aliases para conveniência
@@ -35,7 +43,7 @@ fun Application.configureRouting(
         }
 
         route("/emprestimos") {
-            emprestimoRotas(repositorioEmprestimos, repositorioEquipamentos)
+            emprestimoRotas(repositorioEmprestimos, repositorioEquipamentos, calculadorDePrazos)
         }
 
         // OpenAPI e Swagger UI interativo

@@ -12,7 +12,8 @@ import java.util.UUID
 
 fun Route.emprestimoRotas(
     repositorioEmprestimos: RepositorioDeEmprestimos,
-    repositorioEquipamentos: RepositorioDeEquipamentos
+    repositorioEquipamentos: RepositorioDeEquipamentos,
+    calculadorDePrazos: CalculadorDePrazos = com.smorg.adapters.memoria.CalculadorDePrazosEmMemoria()
 ) {
     // Listar empréstimos com filtros e paginação
     get {
@@ -71,7 +72,16 @@ fun Route.emprestimoRotas(
 
         val agora = Instant.now()
         val dataRetirada = agora.toString()
-        val dataDevolucaoPrevista = agora.plus(7, ChronoUnit.DAYS).toString()
+        val resultadoPrazo = calculadorDePrazos.calcular(
+            DadosCalculoPrazo(
+                usuarioId = novo.usuarioId,
+                perfilUsuario = novo.perfilUsuario,
+                equipamentoId = equipamento.id,
+                categoriaEquipamento = equipamento.categoria,
+                dataRetirada = dataRetirada
+            )
+        )
+        val dataDevolucaoPrevista = resultadoPrazo.dataDevolucaoPrevista
 
         val criado = repositorioEmprestimos.criar(
             usuarioId = novo.usuarioId,

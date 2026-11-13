@@ -9,6 +9,6 @@ ktor:
       - com.smorg.RoutingKt.configureRouting
 
 storage:
-  jdbcURL: ${POSTGRES_JDBC_URL:jdbc:postgresql://localhost:5432/smorg}
-  user: ${POSTGRES_USER:smorg}
-  password: ${POSTGRES_PASSWORD:smorg}
+  jdbcURL: ${POSTGRES_JDBC_URL:${STORAGE_JDBCURL:jdbc:postgresql://localhost:5432/smorg}}
+  user: ${POSTGRES_USER:${STORAGE_USER:smorg}}
+  password: ${POSTGRES_PASSWORD:${STORAGE_PASSWORD:smorg}}
