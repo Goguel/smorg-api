@@ -12,7 +12,7 @@ Este diretório contém os detalhamentos completos das histórias de usuário (U
 | [#2](https://github.com/Goguel/smorg-api/issues/2) | [Registrar Retirada de Equipamento](./issue-2-registrar-retirada.md) | User Story | **P1** | 5 pts | Sprint 1 | Implementada ✅ |
 | [#4](https://github.com/Goguel/smorg-api/issues/4) | [Registrar Devolução de Equipamento](./issue-4-registrar-devolucao.md) | User Story | **P1** | 3 pts | Sprint 1 | Implementada ✅ |
 | [#5](https://github.com/Goguel/smorg-api/issues/5) | [Consultar Inventário e Empréstimos](./issue-5-consultar-inventario.md) | User Story | **P2** | 3 pts | Sprint 1 | Implementada ✅ |
-| [#3](https://github.com/Goguel/smorg-api/issues/3) | [Comunicação gRPC com Microsserviço Go](./issue-3-comunicar-com-go.md) | User Story | **P1** | 8 pts | Sprint 2 | Planejada p/ Sprint 2 |
+| [#3](https://github.com/Goguel/smorg-api/issues/3) | [Comunicação gRPC com Microsserviço Go](./issue-3-comunicar-com-go.md) | User Story | **P1** | 8 pts | Sprint 2 | Implementada ✅ |
 | [#6](https://github.com/Goguel/smorg-api/issues/6) | [Itens mais Requisitados em Cache](./issue-6-cache-itens-requisitados.md) | User Story | **P3** | 5 pts | Backlog | Opcional |
 
 ---
