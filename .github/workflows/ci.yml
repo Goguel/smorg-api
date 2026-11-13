@@ -1,4 +1,4 @@
-name: CI SmOrg API
+name: CI SmOrg
 
 on:
   push:
@@ -7,36 +7,48 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  testes:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Instalar mise (Gerenciador de versões e tasks)
-        uses: jdx/mise-action@v2
+      # 1. Validação do contrato Protocol Buffers com Buf Lint
+      - name: Buf Lint (Contratos)
+        uses: bufbuild/buf-action@v1
+        with:
+          input: protos
+          lint: true
+          format: false
+          breaking: false
 
-      - name: Cache de dependências do Gradle (Ktor)
+      # 2. Testes do Microsserviço Go
+      - name: Configurar Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: services/go.mod
+          cache-dependency-path: services/go.sum
+
+      - name: Rodar testes do serviço Go
+        run: go test -v ./...
+        working-directory: services
+
+      # 3. Testes da API Principal Ktor (Unitários, Testcontainers e ArchUnit)
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Cache de dependências do Gradle
         uses: actions/cache@v4
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('api/**/*.gradle*', 'api/**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Cache de dependências do Go
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-
-      - name: Compilar todos os serviços (Build via mise)
-        run: mise run build
-
-      - name: Rodar testes locais (Test via mise)
-        run: mise run test
+      - name: Rodar suíte de testes do Ktor
+        run: ./gradlew test --no-daemon
+        working-directory: api
