@@ -41,7 +41,9 @@ data class NovoEmprestimo(
     @SerialName("equipamento_id")
     val equipamentoId: UUID? = null,
     @SerialName("nfc_tag_id")
-    val nfcTagId: String? = null
+    val nfcTagId: String? = null,
+    @SerialName("perfil_usuario")
+    val perfilUsuario: String = "ALUNO"
 ) {
     fun violacoes(): List<String> = buildList {
         if (equipamentoId == null && (nfcTagId == null || nfcTagId.isBlank())) {
