@@ -1,8 +1,9 @@
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
     alias(ktorLibs.plugins.ktor)
+    // Plugin Protobuf para compilar o contrato .proto e gerar stubs Java e Kotlin
+    id("com.google.protobuf") version "0.10.0"
 }
 
 group = "com.smorg"
@@ -15,6 +16,7 @@ application {
 kotlin {
     jvmToolchain(21)
 }
+
 dependencies {
     implementation(ktorLibs.server.config.yaml)
     implementation(ktorLibs.server.core)
@@ -35,13 +37,64 @@ dependencies {
     implementation(libs.flyway.core)
     implementation(libs.flyway.database.postgresql)
 
+    // Cliente gRPC para integração com microsserviço Go (stubs com Kotlin Coroutines)
+    implementation(platform("io.grpc:grpc-bom:1.85.0"))
+    implementation("io.grpc:grpc-netty-shaded")
+    implementation("io.grpc:grpc-protobuf")
+    implementation("io.grpc:grpc-stub")
+    implementation("io.grpc:grpc-kotlin-stub:1.5.0")
+    implementation("com.google.protobuf:protobuf-kotlin:4.36.2")
+
     testImplementation(kotlin("test"))
     testImplementation(ktorLibs.server.testHost)
     testImplementation("io.ktor:ktor-client-content-negotiation:3.5.2")
+
+    // Testcontainers: PostgreSQL real em container descartável para testes de integração
+    testImplementation("org.testcontainers:testcontainers-postgresql:2.0.5")
+
+    // ArchUnit: Teste de arquitetura para validar integridade da Clean Architecture
+    testImplementation("com.tngtech.archunit:archunit:1.5.0")
+
+    // Servidor gRPC em memória para testes do cliente sem necessidade de subir o Go
+    testImplementation("io.grpc:grpc-inprocess")
+}
+
+// O contrato Protocol Buffers é compartilhado na pasta ../protos
+sourceSets {
+    main {
+        proto {
+            srcDir("../protos")
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.36.2"
+    }
+    plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.85.0"
+        }
+        create("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.5.0:jdk8@jar"
+        }
+    }
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                create("grpc")
+                create("grpckt")
+            }
+            it.builtins {
+                create("kotlin")
+            }
+        }
+    }
 }
 
 tasks.test {
+    useJUnitPlatform()
     maxParallelForks = 1
-    maxHeapSize = "256m"
+    maxHeapSize = "512m"
 }
-
